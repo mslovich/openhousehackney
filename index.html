@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open House Hackney</title>
+  <meta name="description" content="Open House Hackney — a communal creative space in Hackney Wick, East London. An open door for creativity and community.">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Open House Hackney">
+  <meta property="og:description" content="A communal creative space in the heart of Hackney Wick, East London. Art, music, movement & making.">
+  <meta property="og:url" content="https://www.openhousehackney.com">
+  <meta property="og:image" content="https://www.openhousehackney.com/images/hero-exterior.jpg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Open House Hackney">
+  <meta name="twitter:description" content="A communal creative space in the heart of Hackney Wick, East London.">
+  <meta name="twitter:image" content="https://www.openhousehackney.com/images/hero-exterior.jpg">
+  <link rel="icon" type="image/svg+xml" href="images/logo-black.svg">
+  <link rel="canonical" href="https://www.openhousehackney.com/">
+  <link rel="preload" href="fonts/Eklektyk-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Eklektyk-Stencil.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    /* ========== FONTS ========== */
+    @font-face {
+      font-family: 'Eklektyk';
+      src: url('fonts/Eklektyk-Regular.woff2') format('woff2'),
+           url('fonts/Eklektyk-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Eklektyk Stencil';
+      src: url('fonts/Eklektyk-Stencil.woff2') format('woff2'),
+           url('fonts/Eklektyk-Stencil.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    /* ========== BRAND TOKENS ========== */
+    :root {
+      --light-blue: #a0c1d4;
+      --light-blue-soft: rgba(160,193,212,0.15);
+      --ochre: #f6a400;
+      --ochre-soft: rgba(246,164,0,0.12);
+      --rust: #d74d15;
+      --rust-soft: rgba(215,77,21,0.1);
+      --dark-blue: #372d87;
+      --dark-purple: #2a0d28;
+      --brown: #581104;
+      --black: #111;
+      --white: #fafafa;
+      --off-white: #f2f0ed;
+      --gray: #888;
+      --font-display: 'Eklektyk', 'Georgia', serif;
+      --font-stencil: 'Eklektyk Stencil', 'Georgia', serif;
+      --font-body: 'Helvetica Neue', 'Arial', sans-serif;
+      --max-width: 1400px;
+      --gutter: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    /* ========== RESET ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-body);
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem var(--gutter);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(250,250,250,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .logo-h { height: 62px; width: auto; transition: opacity 0.3s; }
+    .logo-h-white { opacity: 1; }
+    .logo-h-black { opacity: 0; position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+    nav.scrolled .logo-h-white { opacity: 0; }
+    nav.scrolled .logo-h-black { opacity: 1; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+    nav.scrolled .nav-links a { color: var(--black); }
+    .nav-links a:hover { opacity: 0.6; }
+
+    /* ========== HAMBURGER BUTTON ========== */
+    .burger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 201;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 6px 0;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
+    nav.scrolled .burger span { background: var(--black); }
+    /* Animate to X when open */
+    .burger.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .burger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .burger.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    /* Force white lines when menu is open (dark overlay behind) */
+    .burger.open span { background: var(--white); }
+
+    /* ========== MOBILE NAV OVERLAY ========== */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(42,13,40,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      transition: opacity 0.35s;
+      overflow-y: auto;
+    }
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+    }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--ochre); }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/hero-exterior.jpg') center/cover no-repeat;
+      transform: scale(1.05);
+      transition: transform 8s ease-out;
+    }
+    .hero.loaded .hero-bg { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.1) 35%,
+        rgba(0,0,0,0.45) 65%,
+        rgba(0,0,0,0.75) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 var(--gutter) 4rem;
+      max-width: var(--max-width);
+      width: 100%;
+    }
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      color: rgba(255,255,255,0.85);
+      max-width: 500px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+    /* ========== SECTIONS ========== */
+    section { padding: clamp(4rem, 8vw, 8rem) var(--gutter); }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+
+    /* ========== COLOR BAND (decorative divider) ========== */
+    .color-band {
+      display: flex;
+      height: 6px;
+    }
+    .color-band span { flex: 1; }
+    .color-band .cb-brown { background: var(--brown); }
+    .color-band .cb-blue { background: var(--light-blue); }
+    .color-band .cb-ochre { background: var(--ochre); }
+    .color-band .cb-rust { background: var(--rust); }
+    .color-band .cb-purple { background: var(--dark-purple); }
+    .color-band .cb-dblue { background: var(--dark-blue); }
+
+    /* ========== ABOUT ========== */
+    .about {
+      background: var(--white);
+      position: relative;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 6rem);
+      align-items: center;
+    }
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      background: var(--rust-soft);
+      border-radius: 2rem;
+    }
+    .section-label--blue {
+      color: var(--dark-blue);
+      background: var(--light-blue-soft);
+    }
+    .section-label--ochre {
+      color: #9a6800;
+      background: var(--ochre-soft);
+    }
+    .about h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      color: var(--black);
+    }
+    .about p {
+      font-size: clamp(1rem, 1.2vw, 1.15rem);
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 1.25rem;
+    }
+    .about-image {
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Colored accent frame behind the about image */
+    .about-image::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 60%;
+      height: 60%;
+      background: var(--ochre);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 4/5;
+    }
+
+    /* ========== ETHOS STRIP ========== */
+    .ethos {
+      position: relative;
+      height: 50vh;
+      min-height: 300px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ethos-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .ethos-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ethos-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(55,45,135,0.6) 0%,
+        rgba(42,13,40,0.55) 100%
+      );
+    }
+    .ethos-quote {
+      font-family: var(--font-stencil);
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--white);
+      text-align: center;
+      letter-spacing: 0.05em;
+      line-height: 1.15;
+      max-width: 900px;
+      position: relative;
+      z-index: 1;
+    }
+    .ethos-accent {
+      color: var(--ochre);
+    }
+
+    /* ========== SPACE SECTION ========== */
+    .space { background: var(--off-white); }
+    .space-header {
+      text-align: center;
+      margin-bottom: clamp(3rem, 5vw, 5rem);
+    }
+    .space-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.1;
+    }
+    .space-header p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 1.25rem auto 0;
+      line-height: 1.7;
+    }
+
+    /* Asymmetric photo grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(200px, auto);
+      gap: 1rem;
+    }
+    .photo-grid .gi {
+      overflow: hidden;
+      border-radius: 3px;
+      position: relative;
+    }
+    .photo-grid .gi img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .photo-grid .gi:hover img { transform: scale(1.04); }
+
+    .gi-1 { grid-column: 1 / 8; grid-row: 1 / 3; }
+    .gi-2 { grid-column: 8 / 13; grid-row: 1 / 2; }
+    .gi-3 { grid-column: 8 / 13; grid-row: 2 / 3; }
+    .gi-4 { grid-column: 1 / 5; grid-row: 3 / 5; }
+    .gi-5 { grid-column: 5 / 13; grid-row: 3 / 5; }
+
+    .gi-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.25rem 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+      color: white;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gi:hover .gi-caption { opacity: 1; }
+
+    /* ========== INTERIOR BANNER (full-width image break) ========== */
+    .interior-banner {
+      position: relative;
+      height: 50vh;
+      min-height: 300px;
+      overflow: hidden;
+    }
+    .interior-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .interior-banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(215,77,21,0.65) 0%,
+        rgba(88,17,4,0.55) 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .interior-banner-text {
+      font-family: var(--font-stencil);
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--white);
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    /* ========== STORY SECTION ========== */
+    .story {
+      background: var(--white);
+      position: relative;
+    }
+    /* Subtle ochre accent on left edge */
+    .story::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10%;
+      width: 5px;
+      height: 80%;
+      background: linear-gradient(to bottom, var(--ochre), var(--rust));
+      border-radius: 0 3px 3px 0;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 6rem);
+      align-items: center;
+    }
+    .story-image {
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .story-image::before {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: -12px;
+      width: 50%;
+      height: 50%;
+      background: var(--light-blue);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .story-image img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .story h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .story p {
+      font-size: clamp(1rem, 1.2vw, 1.1rem);
+      line-height: 1.75;
+      color: #444;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ========== COMMUNITY / What Happens ========== */
+    .community {
+      background: var(--dark-blue);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Big decorative circle */
+    .community::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(160,193,212,0.08);
+      top: -150px;
+      right: -100px;
+    }
+    .community .section-label {
+      color: var(--ochre);
+      background: rgba(246,164,0,0.15);
+    }
+    .community .space-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .comm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: clamp(2rem, 4vw, 4rem);
+      position: relative;
+      z-index: 1;
+    }
+    .comm-card {
+      padding: 2.5rem 2rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      border-left: 4px solid var(--light-blue);
+      backdrop-filter: blur(4px);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .comm-card:nth-child(2) { border-left-color: var(--ochre); }
+    .comm-card:nth-child(3) { border-left-color: var(--rust); }
+    .comm-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.12);
+    }
+    .comm-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      color: var(--white);
+    }
+    .comm-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ========== LOCATION STRIP ========== */
+    .location {
+      background: var(--dark-purple);
+      color: var(--white);
+      padding: clamp(3rem, 5vw, 5rem) var(--gutter);
+      position: relative;
+      overflow: hidden;
+    }
+    .location-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .location h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      line-height: 1.15;
+    }
+    .location-details {
+      text-align: right;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      opacity: 0.85;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.7);
+      padding: 3rem var(--gutter) 2rem;
+    }
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer-lockup {
+      display: flex;
+      align-items: center;
+    }
+    .footer-lockup .logo-h { height: 54px; width: auto; opacity: 0.7; }
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.85rem;
+    }
+    .footer-links a { transition: color 0.2s; }
+    .footer-links a:hover { color: var(--ochre); }
+    .footer-copy {
+      width: 100%;
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.75rem;
+      opacity: 0.5;
+    }
+
+    /* ========== REVEAL ANIMATION ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ========== SKIP LINK ========== */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 200;
+      padding: 0.75rem 1.5rem;
+      background: var(--ochre);
+      color: var(--black);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: 0 0 4px 4px;
+      transition: top 0.2s;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .about-grid,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-image { order: -1; }
+      .about-image img { aspect-ratio: 16/9; }
+      .about-image::before { display: none; }
+      .story-image { order: -1; }
+      .story-image::before { display: none; }
+      .story::before { display: none; }
+      .comm-grid {
+        grid-template-columns: 1fr;
+      }
+      .photo-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 250px;
+      }
+      .gi-1 { grid-column: 1 / -1; grid-row: auto; }
+      .gi-2 { grid-column: 1 / 2; grid-row: auto; }
+      .gi-3 { grid-column: 2 / 3; grid-row: auto; }
+      .gi-4 { grid-column: 1 / -1; grid-row: auto; }
+      .gi-5 { grid-column: 1 / -1; grid-row: auto; }
+      .location-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .location-details { text-align: center; }
+      /* Show burger, hide desktop links */
+      .nav-links { display: none; }
+      .burger { display: block; }
+      /* Footer stacks vertically */
+      .footer-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-links { flex-direction: column; gap: 0.75rem; text-align: center; }
+      /* Show captions by default on touch (no hover) */
+      .gi-caption { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { min-height: 500px; }
+      .hero-tagline { font-size: 2.2rem; }
+      .hero-content { padding-bottom: 3rem; }
+      .logo-h { height: 44px; }
+      .footer-lockup .logo-h { height: 40px; }
+      .photo-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 220px;
+      }
+      .gi-2, .gi-3 { grid-column: 1 / -1; }
+      .ethos, .interior-banner { height: 35vh; min-height: 220px; }
+      .ethos-quote { padding: 0 1.5rem; }
+      .interior-banner-text { padding: 0 1.5rem; }
+      .comm-card { padding: 2rem 1.5rem; }
+    }
+
+    /* ========== REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+      .hero-bg {
+        transition: none;
+        transform: none;
+      }
+      .photo-grid .gi img { transition: none; }
+      .mobile-menu { transition: none; }
+      .burger span { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="logo-lockup" style="position:relative;">
+      <img src="images/logo-h-white.svg" alt="Open House Hackney" class="logo-h logo-h-white">
+      <img src="images/logo-h-black.svg" alt="Open House Hackney" class="logo-h logo-h-black">
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#space">The Space</a>
+      <a href="#story">The Story</a>
+      <a href="#community">What Happens</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#space">The Space</a>
+    <a href="#story">The Story</a>
+    <a href="#community">What Happens</a>
+  </div>
+
+  <main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-tagline">An Open Door<br>for Creativity<br>& Community</h1>
+      <p class="hero-sub">A communal creative space in the heart of Hackney Wick, East London.</p>
+    </div>
+  </section>
+
+  <!-- COLOR BAND -->
+  <div class="color-band">
+    <span class="cb-brown"></span>
+    <span class="cb-blue"></span>
+    <span class="cb-ochre"></span>
+    <span class="cb-rust"></span>
+    <span class="cb-purple"></span>
+    <span class="cb-dblue"></span>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="section-label">About</div>
+          <h2>Where making, sharing & belonging happen under one roof</h2>
+          <p>Open House Hackney is a multi-purpose space nestled among the warehouses and waterways of Hackney Wick. What began as a vacant building on Prince Edward Road has become a home for creativity, connection and community.</p>
+          <p>The ground floor is both gallery and social space — a place to see art, meet people, or simply spend time. Above, a workshop studio hosts classes and creative sessions. Deeper within the building, music studios provide space for rehearsal, recording and production. Together, these spaces are shaped by the community that moves through them.</p>
+          <p>The building itself is part of the story: exposed brick, industrial steel and natural light that pours through factory-era windows.</p>
+        </div>
+        <div class="about-image reveal reveal-delay-1">
+          <img src="images/open-doors.jpg" alt="Ground floor space looking out to Prince Edward Road through glass storefront" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETHOS STRIP -->
+  <section class="ethos">
+    <div class="ethos-bg">
+      <img src="images/interior-live-music.jpg" alt="Live music performance at Open House Hackney" loading="lazy">
+    </div>
+    <div class="ethos-overlay"></div>
+    <p class="ethos-quote reveal"><span class="ethos-accent">Create,</span> relate, <span class="ethos-accent">regenerate</span></p>
+  </section>
+
+  <!-- THE SPACE -->
+  <section class="space" id="space">
+    <div class="container">
+      <div class="space-header reveal">
+        <div class="section-label section-label--blue">The Space</div>
+        <h2>Brick, steel, wood & light</h2>
+        <p>A converted warehouse with character in every surface — designed to be open, adaptable, and genuinely welcoming.</p>
+      </div>
+      <div class="photo-grid">
+        <div class="gi gi-1 reveal">
+          <img src="images/interior-open.jpg" alt="Ground floor with open glass doors to street" loading="lazy">
+          <div class="gi-caption">Street-front gallery space</div>
+        </div>
+        <div class="gi gi-2 reveal reveal-delay-1">
+          <img src="images/kitchen.jpg" alt="Open studio with kitchen area and art on walls" loading="lazy">
+          <div class="gi-caption">Kitchen & studio space</div>
+        </div>
+        <div class="gi gi-3 reveal reveal-delay-2">
+          <img src="images/entrance.jpg" alt="Workshop space with arched doors and paper sculpture" loading="lazy">
+          <div class="gi-caption">Workshop with arched doors</div>
+        </div>
+        <div class="gi gi-4 reveal">
+          <img src="images/living-space.jpg" alt="Social space with colourful sofas and plants" loading="lazy">
+          <div class="gi-caption">The social space</div>
+        </div>
+        <div class="gi gi-5 reveal reveal-delay-1">
+          <img src="images/workshop-space.jpg" alt="Workshop studio with exposed brick" loading="lazy">
+          <div class="gi-caption">Workshop studio</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERIOR BANNER -->
+  <div class="interior-banner">
+    <img src="images/ethos-dance.jpg" alt="Community dancing together at Open House Hackney" loading="lazy">
+    <div class="interior-banner-overlay">
+      <p class="interior-banner-text">Open doors, open minds</p>
+    </div>
+  </div>
+
+  <!-- FOUNDER STORY -->
+  <section class="story" id="story">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-image reveal">
+          <img src="images/mike.jpg" alt="Mike Slovich, founder of Open House Hackney" loading="lazy">
+        </div>
+        <div class="reveal reveal-delay-1">
+          <div class="section-label section-label--ochre">The Story</div>
+          <h2>Started simply, shaped by the people around it</h2>
+          <p>Mike Slovich moved to East London from the USA in 2017 and was drawn to the openness and energy of Hackney Wick from the start. In 2021, he opened the space and made it his home — living upstairs and opening the doors below to see what might grow from there.</p>
+          <p>It wasn't built around a fixed plan. From the beginning, the idea was to create a place where people could show up, take part, and contribute in their own way — whether that's making, learning, hosting, or just spending time with others.</p>
+          <p>Since opening, it has grown through those contributions. People bring ideas, test things out, and shape what the space becomes. Some things stick, others change, and new ones take their place.</p>
+          <p>That process is the point. Open House Hackney continues to evolve with the community around it — staying open, flexible, and led by the people who use it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT HAPPENS HERE -->
+  <section class="community" id="community">
+    <div class="container">
+      <div class="space-header reveal">
+        <div class="section-label">What Happens Here</div>
+        <h2>Art, music, movement & making</h2>
+      </div>
+      <div class="comm-grid">
+        <div class="comm-card reveal">
+          <h3>Gallery</h3>
+          <p>The street-front gallery showcases a rotating programme of exhibitions from local artists, accompanied by opening events and artist conversations.</p>
+        </div>
+        <div class="comm-card reveal reveal-delay-1">
+          <h3>Workshops & Events</h3>
+          <p>The first-floor studio hosts an eclectic mix of dance and fitness classes, creative workshops, talks and live music. From life drawing and yoga to open mic nights, the programme is shaped by the community around it.</p>
+        </div>
+        <div class="comm-card reveal reveal-delay-2">
+          <h3>Music Studios</h3>
+          <p>Fully equipped music studios sit at the core of the building, offering working spaces for musicians, producers and sound artists in the neighbourhood to create and collaborate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLOR BAND -->
+  <div class="color-band">
+    <span class="cb-dblue"></span>
+    <span class="cb-purple"></span>
+    <span class="cb-rust"></span>
+    <span class="cb-ochre"></span>
+    <span class="cb-blue"></span>
+    <span class="cb-brown"></span>
+  </div>
+
+  <!-- LOCATION -->
+  <section class="location" id="location">
+    <div class="location-inner">
+      <div>
+        <h3>Hackney Wick,<br>East London</h3>
+      </div>
+      <div class="location-details">
+        5 Prince Edward Road<br>
+        London E9 5LX<br>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-lockup">
+        <img src="images/logo-h-white.svg" alt="Open House Hackney" class="logo-h">
+      </div>
+      <div class="footer-links">
+        <a href="mailto:hi@openhousehackney.com">hi@openhousehackney.com</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 Open House Hackney</div>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    const hero = document.getElementById('hero');
+    function updateNav() {
+      if (window.scrollY > 80) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Hero zoom-in on load
+    window.addEventListener('load', () => {
+      hero.classList.add('loaded');
+    });
+
+    // Intersection Observer for reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      const isOpen = burger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close mobile menu on link click + smooth scroll
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          burger.classList.remove('open');
+          mobileMenu.classList.remove('open');
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
